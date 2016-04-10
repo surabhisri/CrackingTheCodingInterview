@@ -13,7 +13,40 @@ namespace CrackingTheCodingInterview
     /// </summary>
     public class ReplaceSpace
     {
+        public static string ReplaceSp(string str)
+        {
+            char[] charstr = str.ToCharArray();
+            char[] newstr = new char[charstr.Length];
 
+            int count = 0;
+            for (int i = 0; i < charstr.Length; i++)
+            {
+                if (charstr[i] == ' ')
+                {
+                    try
+                    {
+                        newstr[count] = '%';
+                        newstr[++count] = '2';
+                        newstr[++count] = '0';
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    newstr[count] = charstr[i];
+                }
+                if (count == charstr.Length - 1)
+                {
+                    break;
+                }
+                count++;
+            }
+            string newstring = new String(newstr);
+            return newstring;
+        }
     }
 
     /// <summary>
@@ -26,7 +59,9 @@ namespace CrackingTheCodingInterview
         /// </summary>
         static void Main()
         {
-            Console.WriteLine("Hello");
+            string s = "Mr John Smith    ";
+            string returnstring = ReplaceSpace.ReplaceSp(s);
+            Console.WriteLine("New string: {0}", returnstring);
             Console.ReadLine();
         }
     }
