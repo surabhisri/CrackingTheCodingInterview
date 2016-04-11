@@ -47,6 +47,43 @@ namespace CrackingTheCodingInterview
             string newstring = new String(newstr);
             return newstring;
         }
+		public static string Replaceinplace(string str)
+		{
+			char[] charstr = str.ToCharArray();
+			int count_i = 0;
+			for(int i = 0; i < charstr.Length; i++)
+			{
+				if(charstr[i] == ' ')
+				{
+					count_i++;
+				}
+			}
+			int buffer_count = 2*count_i/3;
+			if(buffer_count % 3 != 0)
+			{
+				return "False String";
+			}
+			else
+			{
+				int counter = charstr[j].Length - 1;
+				for(int j = charstr[j].Length - buffer_count; j >= 0; j--)
+				{
+					if(charstr[j] == ' ')
+					{
+						charstr[counter] = '0';
+						charstr[--counter] = '2';
+						charstr[--counter] = '%';
+					}
+					else
+					{
+						charstr[counter] = charstr[j];
+						counter--;
+					}
+				}
+			}
+			string newstring = new String(charstr);
+			return newstring;
+		}
     }
 
     /// <summary>
