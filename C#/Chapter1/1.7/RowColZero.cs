@@ -28,10 +28,13 @@ namespace CrackingTheCodingInterview
             Hashtable Ht_row = new Hashtable();
             Hashtable Ht_col = new Hashtable();
             int count = 1;
+            /* Loop through rows of matrix */
             for (int i = 0; i < m; i++)
             {
+                /* Loop through columns of matrix */
                 for (int j = 0; j < n; j++)
                 {
+                    /* If 0 is found at any point and it is not converted by our conversion */
                     if (matrix[i,j] == 0 && !Ht_col.ContainsValue(j) && !Ht_row.ContainsValue(i))
                     {
                         for (int k = 0; k < limit; k++)
@@ -49,6 +52,58 @@ namespace CrackingTheCodingInterview
                         Ht_row.Add(count, i);
                         count++;
                     }
+                }
+            }
+            return matrix;
+        }
+        /// <summary>
+        /// Function: If an element in an MxN matrix is 0, its entire row and column are set to 0.
+        /// </summary>
+        /// <param name="matrix">2D Array</param>
+        /// <param name="m">No of rows</param>
+        /// <param name="n">No of columns</param>
+        /// <returns>New Matrix</returns>
+        public static int[,] RowColZeroFunc_Optimized(int[,] matrix, int m, int n)
+        {
+            int limit = m > n ? m : n;
+            Hashtable Ht_row = new Hashtable();
+            Hashtable Ht_col = new Hashtable();
+            int count = 1;
+            /* Loop through rows of matrix */
+            for (int i = 0; i < m; i++)
+            {
+                /* Loop through columns of matrix */
+                for (int j = 0; j < n; j++)
+                {
+                    /* If 0 is found put its index in hash table */
+                    if (matrix[i, j] == 0)
+                    {    
+                        if(!Ht_col.ContainsValue(i))
+                        {
+                            Ht_col.Add(count + 1, i);
+                        }
+                        if (!Ht_col.ContainsValue(j))
+                        {
+                            Ht_col.Add(count+1, j);
+                        }                                      
+                        count++;
+                    }
+                }
+                /* Full loop */
+                for (int k = 0; k < limit; k++)
+                {   
+                    /* Loop through has table and convert all rows and zero corresponding to the values of hash table values */               
+                    foreach(DictionaryEntry ent in Ht_col)
+                    {
+                        if (k < m)
+                        {
+                            matrix[k, Convert.ToInt32(ent.Value)] = 0;
+                        }
+                        if (k < n && (Convert.ToInt32(ent.Value)) < m)
+                        {
+                            matrix[Convert.ToInt32(ent.Value), k] = 0;
+                        }
+                    }               
                 }
             }
             return matrix;
@@ -71,8 +126,10 @@ namespace CrackingTheCodingInterview
             int n = Convert.ToInt32(Console.ReadLine());
             int i, j;
             int[,] matrix = new int[m,n];
+            /* Loop through rows of matrix */
             for (i = 0; i < m; i++)
             {
+                /* Loop through columns */
                 for (j = 0; j < n; j++)
                 {
                     Console.Write("[{0},{1}]: ", i, j);
@@ -90,7 +147,7 @@ namespace CrackingTheCodingInterview
                 Console.Write(Environment.NewLine);
             }
             int[,] newmatrix = new int[m, n];
-            newmatrix = RowColZero.RowColZeroFunc(matrix, m, n);
+            newmatrix = RowColZero.RowColZeroFunc_Optimized(matrix, m, n);
             Console.WriteLine("New Matrix:");
             for (i = 0; i < m; i++)
             {
